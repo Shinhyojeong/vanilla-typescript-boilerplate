@@ -1,16 +1,20 @@
 module.exports = {
   env: {
     browser: true,
-    es2020: true,
+    es2020: true
   },
-  plugins: ['prettier'],
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint", "prettier"],
+  extends: [
+    "standard-with-typescript",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
   parserOptions: {
-    ecmaVersion: 11,
-    sourceType: 'module',
+    project: "./tsconfig.json"
   },
   rules: {
-    'no-undef': 'false',
-    'prettier/prettier': 'error',
-  },
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/space-before-function-paren": "off"
+  }
 }

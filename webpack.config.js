@@ -3,8 +3,11 @@ const HTMLWebpackPlugin = require("html-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 
 module.exports = {
-  entry: "./src/main.js",
+  entry: "./src/main.ts",
   output: { path: path.resolve(__dirname, "dist"), clean: true },
+  resolve: {
+    extensions: [".ts", ".js"]
+  },
   module: {
     rules: [
       {
@@ -13,8 +16,23 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
-        use: "babel-loader"
+        exclude: /(node_modules)/,
+        use: ["babel-loader"]
+      },
+      {
+        test: /\.ts$/,
+        exclude: /node_modules|\.d\.ts$/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env", "@babel/preset-typescript"]
+            }
+          },
+          {
+            loader: "ts-loader"
+          }
+        ]
       }
     ]
   },
@@ -25,5 +43,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: "static" }]
     })
-  ]
+  ],
+  devServer: {
+    open: true
+  }
 }
